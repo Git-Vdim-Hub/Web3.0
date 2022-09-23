@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\client",
+    "\\client\\src",
+    "\\client\\src\\components",
+    "\\client\\src\\context",
+    "\\client\\src\\utils",
+    "\\smart_contract",
+    "\\smart_contract\\contracts",
+    "\\smart_contract\\scripts"
+  ],
+  "SelectedNode": "\\client\\package.json",
+  "PreviewInSolutionExplorer": false
+}
