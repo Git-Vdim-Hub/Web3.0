@@ -1,3 +1,5 @@
+//This is the footer under the bear cave treasury
+
 import logo from '../../images/95WEOeJ(1).png';
 
 

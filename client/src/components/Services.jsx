@@ -1,8 +1,16 @@
+/*Services module performs two tasks: 
+1. imports bear cave treasury wallet values from the BSC Blockchain
+2. Outputs the bearcave treasury onto a webpage
+*/
+//import dependencies
 import React from "react";
 import { useState } from "react";
 import { axios } from "axios";
 import { GETBLOCK_ID } from '../utils/constants';
 import { ethers } from "ethers";
+import currencyConverter from './CurrencyConverter';
+
+//import crypto logos
 import maticLogo from '../../images/PolygonLogo.png';
 import busdLogo from '../../images/BUSDlogo.png';
 import avaxLogo from '../../images/Avalanchelogo.png';
@@ -10,8 +18,8 @@ import ftmLogo from '../../images/Fantomlogo.png';
 import adaLogo from '../../images/Adalogo.png';
 import atomLogo from '../../images/Cosmoslogo.png';
 import solLogo from '../../images/Solanalogo.png';
-import currencyConverter from './CurrencyConverter';
 
+//create and assign wallet and contract addresses
 const treasuryAddress = '0x1f1b2c8FF594E7f325594232d510234573675BbC'
 const busdAddress = '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56'
 const maticAddress = '0xCC42724C6683B7E57334c4E856f4c9965ED682bD'
@@ -21,7 +29,7 @@ const adaAddress = '0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47'
 const atomAddress = '0x0Eb3a705fc54725037CC9e008bDede697f62F335'
 const solAddress = '0x570A5D26f7765Ecb712C0924E4De545B89fD43dF'
 
-const commonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-medium text-white";
+//instantiation of the smartchain provider used to call values from bscscan
 const provider = new ethers.providers.JsonRpcProvider(`https://bsc.getblock.io/mainnet/${GETBLOCK_ID}`)
 
 const TREASURY_ABI = [
@@ -29,6 +37,8 @@ const TREASURY_ABI = [
     "function symbol() external view returns (string memory)",
     "function balanceOf(address account) external view returns (uint256)",
 ]
+
+//assigning contract values to each token
 const busd = new ethers.Contract(busdAddress, TREASURY_ABI, provider)
 const matic = new ethers.Contract(maticAddress, TREASURY_ABI, provider)
 const avax = new ethers.Contract(avaxAddress, TREASURY_ABI, provider)
@@ -73,8 +83,10 @@ const atomSymbol = await atom.symbol()
 //const solName = await sol.name()
 //const solSymbol = await sol.symbol()
 
-//
+//commonStyles is used to format the white table outline for The Bear Cave Treasury
+const commonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-medium text-white";
 
+// Output of the bear cave treasury including token logo, name, balance, symbol, and dollar value
 const Services = ({maticExchangeRate, avaxExchangeRate, ftmExchangeRate, adaExchangeRate, atomExchangeRate}) => (
     <div className="flex w-full justify-center items-center"> 
         <div className="flex mf:flex-row flex-col items-start justify-between md:p-60 py-12 px-4">
