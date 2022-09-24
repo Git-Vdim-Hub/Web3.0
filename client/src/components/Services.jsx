@@ -147,11 +147,11 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                 </h1>
                 <div className="grid sm:grid-cols-5 grid-cols-7 w-full mt-10">
                     
-                    <div className={`rounded-tl-2xl ${commonStyles}`}><img src={bnbLogo} alt="logo" className="w-16" /></div>
+                    <div className={commonStyles}><img src={bnbLogo} alt="logo" className="w-16" /></div>
                     <div className={commonStyles}>Binance Smartchain</div>
                     <div className={commonStyles}>{balanceRounded}</div>
                     <div className={commonStyles}>BNB</div>
-                    <div className={`rounded-tr-2xl ${commonStyles}`}> ${bnbExchangeRate*balanceRounded} </div>
+                    <div className={commonStyles}> ${bnbExchangeRate*balanceRounded} </div>
                 </div>    
             </div>
         </div>
