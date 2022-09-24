@@ -121,7 +121,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                     <div className={commonStyles}><img src={linkLogo} alt="logo" className="w-16" /></div>
                     <div className={commonStyles}>Chainlink</div>
                     <div className={commonStyles}>{linkBalanceRounded}</div>
-                    <div className={commonStyles}>Security</div>
+                    <div className={commonStyles}>LINK</div>
                     <div className={commonStyles}>${linkBalanceRounded*linkExchangeRate}</div>
 
                     <div className={commonStyles}><img src={adaLogo} alt="logo" className="w-16" /></div>
