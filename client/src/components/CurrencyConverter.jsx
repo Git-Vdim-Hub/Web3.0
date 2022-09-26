@@ -1,4 +1,4 @@
-import { RAPID_API_KEY } from '../utils/constants';
+import { RAPID_API_KEY, MORALIS_API} from '../utils/constants';
 
 import { useState } from "react";
 import React, { useContext } from "react";
@@ -40,159 +40,107 @@ Front end will call back end for current rates
         "X-RapidAPI-Key": RAPID_API_KEY,
         "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
       },
-    };
+    }; 
     const options2 = {
-      method: "GET",
-      url: "https://alpha-vantage.p.rapidapi.com/query",
+      method: 'GET',
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0xCC42724C6683B7E57334c4E856f4c9965ED682bD/price',
       setTimeout: 900000,
-      params: {
-        from_currency: "MATIC",
-        function: "CURRENCY_EXCHANGE_RATE",
-        to_currency: "USD",
-      },
-      headers: {
-        "X-RapidAPI-Key": RAPID_API_KEY,
-        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
-      },
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
     };
     const options3 = {
-      method: "GET",
-      url: "https://alpha-vantage.p.rapidapi.com/query",
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0x1CE0c2827e2eF14D5C4f29a091d735A204794041/price',
       setTimeout: 900000,
-      params: {
-        from_currency: "AVAX",
-        function: "CURRENCY_EXCHANGE_RATE",
-        to_currency: "USD",
-      },
-      headers: {
-        "X-RapidAPI-Key": RAPID_API_KEY,
-        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
-      },
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
     };
     const options4 = {
-      method: "GET",
-      url: "https://alpha-vantage.p.rapidapi.com/query",
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0xAD29AbB318791D579433D831ed122aFeAf29dcfe/price',
       setTimeout: 900000,
-      params: {
-        from_currency: "FTM",
-        function: "CURRENCY_EXCHANGE_RATE",
-        to_currency: "USD",
-      },
-      headers: {
-        "X-RapidAPI-Key": RAPID_API_KEY,
-        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
-      },
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
     };
     const options5 = {
-      method: "GET",
-      url: "https://alpha-vantage.p.rapidapi.com/query",
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD/price',
       setTimeout: 900000,
-      params: {
-        from_currency: "LINK",
-        function: "CURRENCY_EXCHANGE_RATE",
-        to_currency: "USD",
-      },
-      headers: {
-        "X-RapidAPI-Key": RAPID_API_KEY,
-        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
-      },
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
     };
     const options6 = {
-      method: "GET",
-      url: "https://alpha-vantage.p.rapidapi.com/query",
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47/price',
       setTimeout: 900000,
-      params: {
-        from_currency: "ADA",
-        function: "CURRENCY_EXCHANGE_RATE",
-        to_currency: "USD",
-      },
-      headers: {
-        "X-RapidAPI-Key": RAPID_API_KEY,
-        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
-      },
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
     };
     const options7 = {
-      method: "GET",
-      url: "https://alpha-vantage.p.rapidapi.com/query",
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0x0Eb3a705fc54725037CC9e008bDede697f62F335/price',
       setTimeout: 900000,
-      params: {
-        from_currency: "ATOM",
-        function: "CURRENCY_EXCHANGE_RATE",
-        to_currency: "USD",
-      },
-      headers: {
-        "X-RapidAPI-Key": RAPID_API_KEY,
-        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
-      },
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
     };
     const options8 = {
-      method: "GET",
-      url: "https://alpha-vantage.p.rapidapi.com/query",
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0x570A5D26f7765Ecb712C0924E4De545B89fD43dF/price',
       setTimeout: 900000,
-      params: {
-        from_currency: "SOL",
-        function: "CURRENCY_EXCHANGE_RATE",
-        to_currency: "USD",
-      },
-      headers: {
-        "X-RapidAPI-Key": RAPID_API_KEY,
-        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
-      },
-    };
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
+    }; 
     axios
     .request(options1)
     .then(function(response){
-      setBnBExchangeRate(
+      setBnbExchangeRate(
         response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
       );
 
-    })
+    }) 
     axios
       .request(options2)
       .then(function (response) {
         setMaticExchangeRate(
-          response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+          response.data["usdPrice"]
         );
       })
-      axios
+    axios
       .request(options3)
       .then(function (response) {
         setAvaxExchangeRate(
-          response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+          response.data["usdPrice"]
         );
       })
       axios
       .request(options4)
       .then(function (response) {
         setFtmExchangeRate(
-          response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+          response.data["usdPrice"]
         );
       })
       axios
       .request(options5)
       .then(function (response) {
         setLinkExchangeRate(
-          response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+          response.data["usdPrice"]
         );
       })
+      axios
       .request(options6)
       .then(function (response) {
         setAdaExchangeRate(
-          response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+          response.data["usdPrice"]
         );
       })
+      axios
       .request(options7)
       .then(function (response) {
         setAtomExchangeRate(
-          response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+          response.data["usdPrice"]
         );
       })
+      axios
       .request(options8)
       .then(function (response) {
         setSolExchangeRate(
-          response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+          response.data["usdPrice"]
         );
-      })
+      }) 
       .catch(function (error) {
         console.error(error);
       });
