@@ -205,7 +205,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                 <h1 className="text-4xl text-center text-white mt-5 w-full">
                     Arbitrage Calculation
                 </h1> 
-                <div className="grid grid-cols-4 lg:grid-cols-5 items-center border-2 rounded-lg w-full mt-10 text-black backdrop-blur-lg p-5 text-center divide-x">
+                <div className="grid grid-cols-4 lg:grid-cols-5 items-center border-2 rounded-lg w-full mt-10 text-black backdrop-blur-lg p-5 text-center divide-x gap-4">
                 
                 <div><img src={bnbLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Bear LP</div>
@@ -221,7 +221,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
 
                     <div><img src={logo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Treasury</div>
-                    <div>{(bearHeldByInvestors).toFixed(2)}</div>
+                    <div>{(bearHeldByInvestors).toFixed(2).slice(0,2)}M</div>
                     <div className="hidden lg:block">BEAR</div>
                     <div> ${((findValues(bnbExchangeRate*balance, maticExchangeRate*maticBalance, avaxExchangeRate*avaxBalance, ftmExchangeRate*ftmBalance,
                          linkExchangeRate*linkBalance, adaExchangeRate*adaBalance, atomExchangeRate*atomBalance, solExchangeRate*solBalance, parseFloat(busdBalance), bnbExchangeRate*bearLPWBNB)/bearHeldByInvestors)*1000000).toFixed(2)} </div>
