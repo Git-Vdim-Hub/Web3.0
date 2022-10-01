@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { axios } from "axios";
 import { GETBLOCK_ID } from '../utils/constants';
+import { CHAIN_STACK } from '../utils/constants';
 import { ethers } from "ethers";
 import currencyConverter from './CurrencyConverter';
 
@@ -38,10 +39,14 @@ const wbnbAddress = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
 const bearLPAddress = '0x60783c1b91795adfd3add1a9492e37aec8a6e810'
 const bearAddress = '0xd1421f138Fd1bCa936C1c4b2cCc80Fc133372e77'
 const bearUnicryptAddress = '0xeaed594b5926a7d5fbbc61985390baaf936a6b8d'
-const bearStakingAddress = '0x60783c1b91795adfd3add1a9492e37aec8a6e810'
+const bearStakingAddress = '0xfbec91253b539de082e2da751c784228c2384842'
+const deadBearAddress = '0x000000000000000000000000000000000000dead'
+const deployerBearAddress = '0xd1421f138fd1bca936c1c4b2ccc80fc133372e77'
+const marketingBearAddress ='0xd7b3398F528975CB1b966254ad16DA5E52217e7d'
+const devBearAddress = '0xc414f2d604eb7B6c5C1dA41f80Ca0d7C6fA03B6a'
 
 //instantiation of the smartchain provider used to call values from bscscan
-const provider = new ethers.providers.JsonRpcProvider(`https://bsc.getblock.io/mainnet/${GETBLOCK_ID}`)
+const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/bsc')
 
 const TREASURY_ABI = [
     "function name() external view returns(string memory)",
@@ -71,27 +76,24 @@ const balance = ethers.utils.formatEther(await provider.getBalance(treasuryAddre
 const balanceRounded =Math.round(balance * 100) / 100;
 
 const findValues =(a,b,c,d,e,f,g,h,i,j)=>{
-    //console.log(a, b, c, d, e, f, g, h,i,j)
     return (a+b+c+d+e+f+g+h+i+j).toFixed(2)
- //   try{
- //   const setBnbTotal = balance *currencyConverter().bnbExchangeRate();
- //   } catch(error){
-//        console.error(`ERROR:${error}`)
-  //  }
-
 } 
-//useEffect(() =>{
- //   findValues()
-//   }, [])
+
 
 const bearLPWBNB = ethers.utils.formatEther(await wbnb.balanceOf(bearLPAddress))
 const bearLPRounded = Math.round(bearLPWBNB * 100) / 100;
 const bearLPToken = await bear.balanceOf(bearLPAddress) / 1000000000
+console.log(bearLPToken)
 const bearValue = bearLPWBNB / bearLPToken
 const bearTotalSupply = await bear.totalSupply() /1000000000
 const unicryptBear = await bear.balanceOf(bearUnicryptAddress) / 1000000000
 const stakingBear = await bear.balanceOf(bearStakingAddress) / 1000000000
-const bearHeldByInvestors = bearTotalSupply-bearLPToken-unicryptBear-stakingBear-9000000
+const deadBear = await bear.balanceOf(deadBearAddress) / 1000000000
+const deployerBear = await bear.balanceOf(deployerBearAddress) / 1000000000
+console.log(deployerBear)
+const devBear = await bear.balanceOf(devBearAddress) / 1000000000
+const marketingBear = await bear.balanceOf(marketingBearAddress) / 1000000000
+const bearHeldByInvestors = bearTotalSupply-bearLPToken-unicryptBear-stakingBear-deadBear-deployerBear-devBear-marketingBear
 
 const maticBalance = ethers.utils.formatEther(await matic.balanceOf(treasuryAddress))
 const maticBalanceRounded = Math.round(maticBalance * 100) / 100;

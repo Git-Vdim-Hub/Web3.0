@@ -1,4 +1,4 @@
-import {Footer, CurrencyConverter } from './components';
+import {CurrencyConverter } from './components';
 import background from '../images/beartoken.png';
 
 const homeStyle = {
