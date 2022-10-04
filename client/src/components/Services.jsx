@@ -79,48 +79,55 @@ const findValues =(a,b,c,d,e,f,g,h,i,j)=>{
     return (a+b+c+d+e+f+g+h+i+j).toFixed(2)
 } 
 
-
+const bearLP = async()=>{
+    const TREASURY_ABI = [
+        "function name() external view returns(string memory)",
+        "function symbol() external view returns (string memory)",
+        "function balanceOf(address account) external view returns (uint256)",
+    ]
+    const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/bsc')
+    const wbnbAddress = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+    const bearLPAddress = '0x60783c1b91795adfd3add1a9492e37aec8a6e810'
+    const wbnb = new ethers.Contract(wbnbAddress, TREASURY_ABI, provider)
+    const bearLPWBNB = ethers.utils.formatEther(await wbnb.balanceOf(bearLPAddress))
+    console.log(bearLPWBNB)
+    return bearLPWBNB
+}
 const bearLPWBNB = ethers.utils.formatEther(await wbnb.balanceOf(bearLPAddress))
 const bearLPRounded = Math.round(bearLPWBNB * 100) / 100;
 const bearLPToken = await bear.balanceOf(bearLPAddress) / 1000000000
-console.log(bearLPToken)
+//console.log(bearLPToken)
 const bearValue = bearLPWBNB / bearLPToken
 const bearTotalSupply = await bear.totalSupply() /1000000000
 const unicryptBear = await bear.balanceOf(bearUnicryptAddress) / 1000000000
 const stakingBear = await bear.balanceOf(bearStakingAddress) / 1000000000
 const deadBear = await bear.balanceOf(deadBearAddress) / 1000000000
 const deployerBear = await bear.balanceOf(deployerBearAddress) / 1000000000
-console.log(deployerBear)
+//console.log(deployerBear)
 const devBear = await bear.balanceOf(devBearAddress) / 1000000000
 const marketingBear = await bear.balanceOf(marketingBearAddress) / 1000000000
 const bearHeldByInvestors = bearTotalSupply-bearLPToken-unicryptBear-stakingBear-deadBear-deployerBear-devBear-marketingBear
 
 const maticBalance = ethers.utils.formatEther(await matic.balanceOf(treasuryAddress))
 const maticBalanceRounded = Math.round(maticBalance * 100) / 100;
-const maticTotal = 0;
 
 const avaxBalance = ethers.utils.formatEther(await avax.balanceOf(treasuryAddress))
 const avaxBalanceRounded = Math.round(avaxBalance*100)/100;
-const avaxTotal = 0;
 
 const ftmBalance = ethers.utils.formatEther(await ftm.balanceOf(treasuryAddress))
 const ftmBalanceRounded = Math.round(ftmBalance*100)/100;
-const ftmTotal = 0;
 
 const busdBalance = ethers.utils.formatEther(await busd.balanceOf(treasuryAddress))
 
 
 const linkBalance = ethers.utils.formatEther(await link.balanceOf(treasuryAddress))
 const linkBalanceRounded = Math.round(linkBalance * 100) / 100;
-const linkTotal = 0;
 
 const adaBalance = ethers.utils.formatEther(await ada.balanceOf(treasuryAddress))
 const adaBalanceRounded = Math.round(adaBalance * 100) / 100;
-const adaTotal = 0;
 
 const atomBalance = ethers.utils.formatEther(await atom.balanceOf(treasuryAddress))
 const atomBalanceRounded = Math.round(atomBalance * 100) / 100;
-const atomTotal = 0;
 
 const solBalance = ethers.utils.formatEther(await sol.balanceOf(treasuryAddress))
 const solBalanceRounded = Math.round(solBalance * 100) / 100;
@@ -140,7 +147,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                 </h1>
                 <h1 className="text-3xl w-full text-center">
                 Total: ${findValues(bnbExchangeRate*balance, maticExchangeRate*maticBalance, avaxExchangeRate*avaxBalance, ftmExchangeRate*ftmBalance,
-                         linkExchangeRate*linkBalance, adaExchangeRate*adaBalance, atomExchangeRate*atomBalance, solExchangeRate*solBalance, parseFloat(busdBalance), bnbExchangeRate*bearLPWBNB)}
+                         linkExchangeRate*linkBalance, adaExchangeRate*adaBalance, atomExchangeRate*atomBalance, solExchangeRate*solBalance, parseFloat(busdBalance), bnbExchangeRate*parseFloat(bearLP()))}
                 </h1>
 
                 <div className="grid grid-cols-4 items-center lg:grid-cols-5 w-full mt-10 border-2 p-5 rounded-xl gap-4 text-black backdrop-blur-lg text-center divide-x">
