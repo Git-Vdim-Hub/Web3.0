@@ -1,5 +1,5 @@
 import {Footer, CurrencyConverter } from './components';
-import background from '../images/beartoken.png';
+import background from '../images/BearCave.jpeg';
 
 const homeStyle = {
   backgroundImage: `url(${background})`,
