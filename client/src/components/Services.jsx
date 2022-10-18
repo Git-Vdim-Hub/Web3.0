@@ -22,6 +22,7 @@ import linkLogo from '../../images/linkLogo.png'
 import adaLogo from '../../images/Adalogo.png';
 import atomLogo from '../../images/Cosmoslogo.png';
 import solLogo from '../../images/Solanalogo.png';
+import sandLogo from '../../images/SandboxLogo.png';
 import logo from '../../images/95WEOeJ(1).png';
 
 //create and assign treasury wallet and contract addresses
@@ -34,6 +35,7 @@ const linkAddress = '0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD'
 const adaAddress = '0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47' 
 const atomAddress = '0x0Eb3a705fc54725037CC9e008bDede697f62F335'
 const solAddress = '0x570A5D26f7765Ecb712C0924E4De545B89fD43dF'
+const sandAddress = '0x67b725d7e342d7B611fa85e859Df9697D9378B2e'
 
 const wbnbAddress = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
 const bearLPAddress = '0x60783c1b91795adfd3add1a9492e37aec8a6e810'
@@ -71,33 +73,28 @@ const atom = new ethers.Contract(atomAddress, TREASURY_ABI, provider)
 const sol = new ethers.Contract(solAddress, TREASURY_ABI, provider)
 const bear = new ethers.Contract(bearAddress, BEAR_ABI, provider)
 const wbnb = new ethers.Contract(wbnbAddress, TREASURY_ABI, provider)
+const sand = new ethers.Contract(sandAddress, TREASURY_ABI, provider)
 
-const balance = ethers.utils.formatEther(await provider.getBalance(treasuryAddress))
-const balanceRounded =Math.round(balance * 100) / 100;
-
-const findValues =(a,b,c,d,e,f,g,h,i,j)=>{
-    return (a+b+c+d+e+f+g+h+i+j).toFixed(2)
-} 
+const findTotalValue =(a,b,c,d,e,f,g,h,i,j,k)=>{
+    const total=a+b+c+d+e+f+g+h+i+j+k;
+    console.log(total)
+    return parseFloat(total).toFixed(2);
+}
 
 const bearLP = async()=>{
-    const TREASURY_ABI = [
-        "function name() external view returns(string memory)",
-        "function symbol() external view returns (string memory)",
-        "function balanceOf(address account) external view returns (uint256)",
-    ]
-    const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/bsc')
-    const wbnbAddress = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
-    const bearLPAddress = '0x60783c1b91795adfd3add1a9492e37aec8a6e810'
-    const wbnb = new ethers.Contract(wbnbAddress, TREASURY_ABI, provider)
     const bearLPWBNB = ethers.utils.formatEther(await wbnb.balanceOf(bearLPAddress))
-    console.log(bearLPWBNB)
-    return bearLPWBNB
+    //console.log(bearLPWBNB);
+    return parseFloat(bearLPWBNB).toFixed(2);
 }
-const bearLPWBNB = ethers.utils.formatEther(await wbnb.balanceOf(bearLPAddress))
-const bearLPRounded = Math.round(bearLPWBNB * 100) / 100;
+const bearLPTokenAmount = async()=>{
+    const bearLPToken = await bear.balanceOf(bearLPAddress) / 1000000000
+    return parseFloat(bearLPToken).toFixed(2)
+}
+//const bearLPWBNB = ethers.utils.formatEther(await wbnb.balanceOf(bearLPAddress))
+//const bearLPRounded = Math.round(bearLPWBNB * 100) / 100;
 const bearLPToken = await bear.balanceOf(bearLPAddress) / 1000000000
 //console.log(bearLPToken)
-const bearValue = bearLPWBNB / bearLPToken
+//const bearValue = bearLPWBNB / bearLPToken
 const bearTotalSupply = await bear.totalSupply() /1000000000
 const unicryptBear = await bear.balanceOf(bearUnicryptAddress) / 1000000000
 const stakingBear = await bear.balanceOf(bearStakingAddress) / 1000000000
@@ -108,97 +105,157 @@ const devBear = await bear.balanceOf(devBearAddress) / 1000000000
 const marketingBear = await bear.balanceOf(marketingBearAddress) / 1000000000
 const bearHeldByInvestors = bearTotalSupply-bearLPToken-unicryptBear-stakingBear-deadBear-deployerBear-devBear-marketingBear
 
-const maticBalance = ethers.utils.formatEther(await matic.balanceOf(treasuryAddress))
-const maticBalanceRounded = Math.round(maticBalance * 100) / 100;
+const treasuryBNB = async()=>{
+    const balance = ethers.utils.formatEther(await provider.getBalance(treasuryAddress));
+    return parseFloat(balance).toFixed(2);
+} 
 
-const avaxBalance = ethers.utils.formatEther(await avax.balanceOf(treasuryAddress))
-const avaxBalanceRounded = Math.round(avaxBalance*100)/100;
+const treasuryMatic = async()=>{
+    const maticBalance = ethers.utils.formatEther(await matic.balanceOf(treasuryAddress));
+    return parseFloat(maticBalance).toFixed(2);
+}
 
-const ftmBalance = ethers.utils.formatEther(await ftm.balanceOf(treasuryAddress))
-const ftmBalanceRounded = Math.round(ftmBalance*100)/100;
+const treasuryAvax = async()=>{
+    const avaxBalance = ethers.utils.formatEther(await avax.balanceOf(treasuryAddress));
+    return parseFloat(avaxBalance).toFixed(2);
+}
 
-const busdBalance = ethers.utils.formatEther(await busd.balanceOf(treasuryAddress))
+const treasuryFtm = async()=>{
+    const ftmBalance = ethers.utils.formatEther(await ftm.balanceOf(treasuryAddress));
+    return parseFloat(ftmBalance).toFixed(2);
+}
 
+const treasuryBusd = async()=>{
+    const busdBalance = ethers.utils.formatEther(await busd.balanceOf(treasuryAddress));
+    return busdBalance;
+}
 
-const linkBalance = ethers.utils.formatEther(await link.balanceOf(treasuryAddress))
-const linkBalanceRounded = Math.round(linkBalance * 100) / 100;
+const treasuryLink = async()=>{
+    const linkBalance = ethers.utils.formatEther(await link.balanceOf(treasuryAddress));
+    return parseFloat(linkBalance).toFixed(2);
+}
 
-const adaBalance = ethers.utils.formatEther(await ada.balanceOf(treasuryAddress))
-const adaBalanceRounded = Math.round(adaBalance * 100) / 100;
+const treasuryAda = async()=>{
+    const adaBalance = ethers.utils.formatEther(await ada.balanceOf(treasuryAddress));
+    return parseFloat(adaBalance).toFixed(2);
+}
 
-const atomBalance = ethers.utils.formatEther(await atom.balanceOf(treasuryAddress))
-const atomBalanceRounded = Math.round(atomBalance * 100) / 100;
+const treasuryAtom = async()=>{
+    const atomBalance = ethers.utils.formatEther(await atom.balanceOf(treasuryAddress));
+    return parseFloat(atomBalance).toFixed(2);
+}
 
-const solBalance = ethers.utils.formatEther(await sol.balanceOf(treasuryAddress))
-const solBalanceRounded = Math.round(solBalance * 100) / 100;
+const treasurySol = async()=>{
+    const solBalance = ethers.utils.formatEther(await sol.balanceOf(treasuryAddress));
+    return parseFloat(solBalance).toFixed(2);
+}
+
+const treasurySand = async()=>{
+    const sandBalance = ethers.utils.formatEther(await sand.balanceOf(treasuryAddress));
+    return parseFloat(sandBalance).toFixed(2);
+}
+
 
 
 //commonStyles is used to format the white table outline for The Bear Cave Treasury
 //const commonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-medium text-white";
 
 // Output of the bear cave treasury including token logo, name, balance, symbol, and dollar value
-const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExchangeRate, linkExchangeRate, adaExchangeRate, atomExchangeRate, solExchangeRate}) => (
-    //const totalBalance = (maticBalanceRounded*maticExchangeRate)+
-    <div className="flex w-full justify-center items-center"> 
+const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExchangeRate, linkExchangeRate, adaExchangeRate, atomExchangeRate, solExchangeRate, sandExchangeRate}) => {
+    const [newBearLp, setNewBearLp] = useState(200);
+    const [newBearLPTokenAmount, setNewBearLPTokenAmount] = useState(200);
+    const [newBnbBalance, setNewBnbBalance] = useState(200);
+    const [newMaticBalance, setNewMaticBalance] = useState(200);
+    const [newAvaxBalance, setNewAvaxBalance] = useState(200);
+    const [newFtmBalance, setNewFtmBalance] = useState(200);
+    const[newBusdBalance, setNewBusdBalance] = useState(200);
+    const[newLinkBalance, setNewLinkBalance] = useState(200);
+    const[newAdaBalance,setNewAdaBalance] = useState(200);
+    const[newAtomBalance, setNewAtomBalance] = useState(200);
+    const[newSolBalance, setNewSolBalance] = useState(200);
+    const[newSandBalance, setNewSandBalance] = useState(200);
+    bearLP().then(value => setNewBearLp(value));
+    bearLPTokenAmount().then(value => setNewBearLPTokenAmount(value));
+    treasuryBNB().then(value => setNewBnbBalance(value));
+    treasuryMatic().then(value => setNewMaticBalance(value));
+    treasuryAvax().then(value=> setNewAvaxBalance(value));
+    treasuryFtm().then(value=>setNewFtmBalance(value));
+    treasuryBusd().then(value=>setNewBusdBalance(value));
+    treasuryLink().then(value=>setNewLinkBalance(value));
+    treasuryAda().then(value=>setNewAdaBalance(value));
+    treasuryAtom().then(value=>setNewAtomBalance(value));
+    treasurySol().then(value=>setNewSolBalance(value));
+    treasurySand().then(value=>setNewSandBalance(value));
+
+
+    return(
+        <div className="flex w-full justify-center items-center"> 
         <div className="flex mf:flex-row flex-col items-start justify-between md:p-60 py-12 px-4">
             <div className="flex flex-1 justify-center items-start flex-col mf:mr-10">
                 <h1 className="text-4xl text-center text-white py-3  w-full ">
                     The Bear Cave  
                 </h1>
                 <h1 className="text-3xl w-full text-center">
-                Total: ${findValues(bnbExchangeRate*balance, maticExchangeRate*maticBalance, avaxExchangeRate*avaxBalance, ftmExchangeRate*ftmBalance,
-                         linkExchangeRate*linkBalance, adaExchangeRate*adaBalance, atomExchangeRate*atomBalance, solExchangeRate*solBalance, parseFloat(busdBalance), bnbExchangeRate*parseFloat(bearLP()))}
+                Total: ${findTotalValue(bnbExchangeRate*newBnbBalance, maticExchangeRate*newMaticBalance, avaxExchangeRate*newAvaxBalance, ftmExchangeRate*newFtmBalance,
+                         linkExchangeRate*newLinkBalance, adaExchangeRate*newAdaBalance, atomExchangeRate*newAtomBalance, solExchangeRate*newSolBalance, newBusdBalance,
+                        bnbExchangeRate*newBearLp, sandExchangeRate*newSandBalance)}
                 </h1>
 
                 <div className="grid grid-cols-4 items-center lg:grid-cols-5 w-full mt-10 border-2 p-5 rounded-xl gap-4 text-black backdrop-blur-lg text-center divide-x">
                     
                     <div><img src={maticLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Polygon</div>
-                    <div>{maticBalanceRounded}</div>
+                    <div>{newMaticBalance}</div>
                     <div className="hidden lg:block">MATIC</div>
-                    <div> ${(maticBalanceRounded*maticExchangeRate).toFixed(2)} </div>
+                    <div> ${(newMaticBalance*maticExchangeRate).toFixed(2)} </div>
 
                     <div><img src={avaxLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Avalanche</div>
-                    <div>{avaxBalanceRounded}</div>
+                    <div>{newAvaxBalance}</div>
                     <div className="hidden lg:block">AVAX</div>
-                    <div>${(avaxBalanceRounded*avaxExchangeRate).toFixed(2)}</div>
+                    <div>${(newAvaxBalance*avaxExchangeRate).toFixed(2)}</div>
 
                     <div><img src={ftmLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Fantom</div>
-                    <div>{ftmBalanceRounded}</div>
+                    <div>{newFtmBalance}</div>
                     <div className="hidden lg:block">FTM</div>
-                    <div>${(ftmBalanceRounded*ftmExchangeRate).toFixed(2)}</div>
+                    <div>${(newFtmBalance*ftmExchangeRate).toFixed(2)}</div>
 
                     <div><img src={busdLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Binance-US Dollar</div>
-                    <div >{busdBalance}</div>
+                    <div >{newBusdBalance}</div>
                     <div className="hidden lg:block">BUSD</div>
-                    <div>${busdBalance}</div>
+                    <div>${newBusdBalance}</div>
 
                     <div><img src={linkLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Chainlink</div>
-                    <div>{linkBalanceRounded}</div>
+                    <div>{newLinkBalance}</div>
                     <div className="hidden lg:block">LINK</div>
-                    <div>${(linkBalanceRounded*linkExchangeRate).toFixed(2)}</div>
+                    <div>${(newLinkBalance*linkExchangeRate).toFixed(2)}</div>
 
                     <div><img src={adaLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Cordano</div>
-                    <div>{adaBalanceRounded}</div>
+                    <div>{newAdaBalance}</div>
                     <div className="hidden lg:block">ADA</div>
-                    <div>${(adaBalanceRounded*adaExchangeRate).toFixed(2)}</div>
+                    <div>${(newAdaBalance*adaExchangeRate).toFixed(2)}</div>
 
                     <div> <img src={atomLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
                     <div>Cosmos</div>
-                    <div>{atomBalanceRounded}</div>
+                    <div>{newAtomBalance}</div>
                     <div className="hidden lg:block">ATOM</div>
-                    <div> ${(atomBalanceRounded*atomExchangeRate).toFixed(2)} </div>
+                    <div> ${(newAtomBalance*atomExchangeRate).toFixed(2)} </div>
                     
                     <div> <img src={solLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
                     <div>Solana</div>
-                    <div>{solBalanceRounded}</div>
+                    <div>{newSolBalance}</div>
                     <div className="hidden lg:block">SOL</div>
-                    <div> ${(solBalanceRounded*solExchangeRate).toFixed(2)} </div>
+                    <div> ${(newSolBalance*solExchangeRate).toFixed(2)} </div>
+
+                    <div> <img src={sandLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
+                    <div>Sand Box</div>
+                    <div>{newSandBalance}</div>
+                    <div className="hidden lg:block">SAND</div>
+                    <div> ${(newSandBalance*sandExchangeRate).toFixed(2)} </div>
                 </div>
                 <h1 className="text-4xl text-center text-white mt-5 w-full">
                     Next Month's Investment
@@ -207,9 +264,9 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                     
                     <div><img src={bnbLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Binance Smartchain</div>
-                    <div>{balanceRounded}</div>
+                    <div>{newBnbBalance}</div>
                     <div className="hidden lg:block">BNB</div>
-                    <div> ${(bnbExchangeRate*balanceRounded).toFixed(2)} </div>
+                    <div> ${(bnbExchangeRate*newBnbBalance).toFixed(2)} </div>
                 </div>
                 <h1 className="text-4xl text-center text-white mt-5 w-full">
                     Arbitrage Calculation
@@ -218,26 +275,28 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                 
                 <div><img src={bnbLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Bear LP</div>
-                    <div>{bearLPRounded}</div>
+                    <div>{newBearLp}</div>
                     <div className="hidden lg:block">BNB</div>
-                    <div> ${(bnbExchangeRate*bearLPWBNB).toFixed(2)} </div>
+                    <div> ${(bnbExchangeRate*newBearLp).toFixed(2)} </div>
 
                     <div><img src={logo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>1 Mil BEAR</div>
-                    <div>{(bearValue*1000000).toFixed(2)}</div>
+                    <div>{((newBearLp/newBearLPTokenAmount)*1000000).toFixed(2)}</div>
                     <div className="hidden lg:block">BEAR</div>
-                    <div> ${((bnbExchangeRate*bearValue*1000000)*0.9).toFixed(2)} </div>
+                    <div> ${((bnbExchangeRate*(newBearLp/newBearLPTokenAmount)*1000000)*0.9).toFixed(2)} </div>
 
                     <div><img src={logo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Treasury</div>
                     <div>{(bearHeldByInvestors).toFixed(2).slice(0,2)}M</div>
                     <div className="hidden lg:block">BEAR</div>
-                    <div> ${((findValues(bnbExchangeRate*balance, maticExchangeRate*maticBalance, avaxExchangeRate*avaxBalance, ftmExchangeRate*ftmBalance,
-                         linkExchangeRate*linkBalance, adaExchangeRate*adaBalance, atomExchangeRate*atomBalance, solExchangeRate*solBalance, parseFloat(busdBalance), bnbExchangeRate*bearLPWBNB)/bearHeldByInvestors)*1000000).toFixed(2)} </div>
+                    <div> ${((findTotalValue(bnbExchangeRate*newBnbBalance, maticExchangeRate*newMaticBalance, avaxExchangeRate*newAvaxBalance, ftmExchangeRate*newFtmBalance,
+                         linkExchangeRate*newLinkBalance, adaExchangeRate*newAdaBalance, atomExchangeRate*newAtomBalance, solExchangeRate*newSolBalance, parseFloat(newBusdBalance),
+                        bnbExchangeRate*newBearLp, sandExchangeRate*newSandBalance)/bearHeldByInvestors)*1000000).toFixed(2)} </div>
                 </div>  
             </div>
         </div>
     </div>
- );
+    )
+};
 
 export default Services;

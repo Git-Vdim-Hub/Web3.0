@@ -19,6 +19,7 @@ const CurrencyConverter = () => {
   const [adaExchangeRate, setAdaExchangeRate] = useState(0);
   const [atomExchangeRate, setAtomExchangeRate] = useState(0);
   const [solExchangeRate, setSolExchangeRate] = useState(0);
+  const [sandExchangeRate, setSandExchangeRate] = useState(0);
   
 
 /*Currently client is making queries for every type of currency directly to rapidapi/alphavantage. 
@@ -84,6 +85,12 @@ Front end will call back end for current rates
       params: {chain: 'bsc'},
       headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
     }; 
+    const options9 ={
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0x67b725d7e342d7B611fa85e859Df9697D9378B2e/price',
+      setTimeout: 900000,
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
+    }
     axios
     .request(options1)
     .then(function(response){
@@ -140,6 +147,12 @@ Front end will call back end for current rates
         setSolExchangeRate(
           response.data["usdPrice"]
         );
+      })
+      axios.request(options9)
+      .then(function(response) {
+        setSandExchangeRate(
+          response.data["usdPrice"]
+        );
       }) 
       .catch(function (error) {
         console.error(error);
@@ -160,6 +173,7 @@ Front end will call back end for current rates
         adaExchangeRate={adaExchangeRate}
         atomExchangeRate={atomExchangeRate}
         solExchangeRate={solExchangeRate}
+        sandExchangeRate={sandExchangeRate}
       />
   );
 };
