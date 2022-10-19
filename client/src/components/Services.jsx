@@ -75,12 +75,6 @@ const bear = new ethers.Contract(bearAddress, BEAR_ABI, provider)
 const wbnb = new ethers.Contract(wbnbAddress, TREASURY_ABI, provider)
 const sand = new ethers.Contract(sandAddress, TREASURY_ABI, provider)
 
-const findTotalValue =(a,b,c,d,e,f,g,h,i,j,k)=>{
-    const total=a+b+c+d+e+f+g+h+i+j+k;
-    console.log(total)
-    return parseFloat(total).toFixed(2);
-}
-
 const bearLP = async()=>{
     const bearLPWBNB = ethers.utils.formatEther(await wbnb.balanceOf(bearLPAddress))
     //console.log(bearLPWBNB);
@@ -92,18 +86,21 @@ const bearLPTokenAmount = async()=>{
 }
 //const bearLPWBNB = ethers.utils.formatEther(await wbnb.balanceOf(bearLPAddress))
 //const bearLPRounded = Math.round(bearLPWBNB * 100) / 100;
-const bearLPToken = await bear.balanceOf(bearLPAddress) / 1000000000
+//const bearLPToken = await bear.balanceOf(bearLPAddress) / 1000000000
 //console.log(bearLPToken)
 //const bearValue = bearLPWBNB / bearLPToken
-const bearTotalSupply = await bear.totalSupply() /1000000000
-const unicryptBear = await bear.balanceOf(bearUnicryptAddress) / 1000000000
-const stakingBear = await bear.balanceOf(bearStakingAddress) / 1000000000
-const deadBear = await bear.balanceOf(deadBearAddress) / 1000000000
-const deployerBear = await bear.balanceOf(deployerBearAddress) / 1000000000
+const bearHeldByInvestors = async()=>{
+    const bearTotalSupply = await bear.totalSupply() /1000000000
+    const bearLPToken = await bear.balanceOf(bearLPAddress) / 1000000000
+    const unicryptBear = await bear.balanceOf(bearUnicryptAddress) / 1000000000
+    const stakingBear = await bear.balanceOf(bearStakingAddress) / 1000000000
+    const deadBear = await bear.balanceOf(deadBearAddress) / 1000000000
+    const deployerBear = await bear.balanceOf(deployerBearAddress) / 1000000000
 //console.log(deployerBear)
-const devBear = await bear.balanceOf(devBearAddress) / 1000000000
-const marketingBear = await bear.balanceOf(marketingBearAddress) / 1000000000
-const bearHeldByInvestors = bearTotalSupply-bearLPToken-unicryptBear-stakingBear-deadBear-deployerBear-devBear-marketingBear
+    const devBear = await bear.balanceOf(devBearAddress) / 1000000000
+    const marketingBear = await bear.balanceOf(marketingBearAddress) / 1000000000
+    return (bearTotalSupply-bearLPToken-unicryptBear-stakingBear-deadBear-deployerBear-devBear-marketingBear);
+}
 
 const treasuryBNB = async()=>{
     const balance = ethers.utils.formatEther(await provider.getBalance(treasuryAddress));
@@ -162,18 +159,19 @@ const treasurySand = async()=>{
 
 // Output of the bear cave treasury including token logo, name, balance, symbol, and dollar value
 const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExchangeRate, linkExchangeRate, adaExchangeRate, atomExchangeRate, solExchangeRate, sandExchangeRate}) => {
-    const [newBearLp, setNewBearLp] = useState(200);
-    const [newBearLPTokenAmount, setNewBearLPTokenAmount] = useState(200);
-    const [newBnbBalance, setNewBnbBalance] = useState(200);
-    const [newMaticBalance, setNewMaticBalance] = useState(200);
-    const [newAvaxBalance, setNewAvaxBalance] = useState(200);
-    const [newFtmBalance, setNewFtmBalance] = useState(200);
-    const[newBusdBalance, setNewBusdBalance] = useState(200);
-    const[newLinkBalance, setNewLinkBalance] = useState(200);
-    const[newAdaBalance,setNewAdaBalance] = useState(200);
-    const[newAtomBalance, setNewAtomBalance] = useState(200);
-    const[newSolBalance, setNewSolBalance] = useState(200);
-    const[newSandBalance, setNewSandBalance] = useState(200);
+    const [newBearLp, setNewBearLp] = useState(0);
+    const [newBearLPTokenAmount, setNewBearLPTokenAmount] = useState(0);
+    const [newBnbBalance, setNewBnbBalance] = useState(0);
+    const [newMaticBalance, setNewMaticBalance] = useState(0);
+    const [newAvaxBalance, setNewAvaxBalance] = useState(0);
+    const [newFtmBalance, setNewFtmBalance] = useState(0);
+    const[newBusdBalance, setNewBusdBalance] = useState(0);
+    const[newLinkBalance, setNewLinkBalance] = useState(0);
+    const[newAdaBalance,setNewAdaBalance] = useState(0);
+    const[newAtomBalance, setNewAtomBalance] = useState(0);
+    const[newSolBalance, setNewSolBalance] = useState(0);
+    const[newSandBalance, setNewSandBalance] = useState(0);
+    const[newBearHeldByInvestors, setNewBearHeldByInvestors] = useState(0)
     bearLP().then(value => setNewBearLp(value));
     bearLPTokenAmount().then(value => setNewBearLPTokenAmount(value));
     treasuryBNB().then(value => setNewBnbBalance(value));
@@ -186,7 +184,21 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
     treasuryAtom().then(value=>setNewAtomBalance(value));
     treasurySol().then(value=>setNewSolBalance(value));
     treasurySand().then(value=>setNewSandBalance(value));
-
+    bearHeldByInvestors().then(value=>setNewBearHeldByInvestors(value));
+    const setTotal = () => {
+        const total = (bnbExchangeRate * newBnbBalance)+
+                  (maticExchangeRate * newMaticBalance)+
+                  (avaxExchangeRate * newAvaxBalance)+
+                  (ftmExchangeRate * newFtmBalance)+
+                  (linkExchangeRate * newLinkBalance)+
+                  (adaExchangeRate * newAdaBalance)+
+                  (atomExchangeRate * newAtomBalance)+
+                  (solExchangeRate * newSolBalance)+
+                  (parseFloat(newBusdBalance))+
+                  (bnbExchangeRate * newBearLp)+
+                  (sandExchangeRate * newSandBalance);
+        return total.toFixed(2);
+    }
 
     return(
         <div className="flex w-full justify-center items-center"> 
@@ -196,11 +208,8 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                     The Bear Cave  
                 </h1>
                 <h1 className="text-3xl w-full text-center">
-                Total: ${findTotalValue(bnbExchangeRate*newBnbBalance, maticExchangeRate*newMaticBalance, avaxExchangeRate*newAvaxBalance, ftmExchangeRate*newFtmBalance,
-                         linkExchangeRate*newLinkBalance, adaExchangeRate*newAdaBalance, atomExchangeRate*newAtomBalance, solExchangeRate*newSolBalance, newBusdBalance,
-                        bnbExchangeRate*newBearLp, sandExchangeRate*newSandBalance)}
+                Total: ${setTotal()}
                 </h1>
-
                 <div className="grid grid-cols-4 items-center lg:grid-cols-5 w-full mt-10 border-2 p-5 rounded-xl gap-4 text-black backdrop-blur-lg text-center divide-x">
                     
                     <div><img src={maticLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
@@ -287,11 +296,9 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
 
                     <div><img src={logo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Treasury</div>
-                    <div>{(bearHeldByInvestors).toFixed(2).slice(0,2)}M</div>
+                    <div>{(newBearHeldByInvestors).toFixed(2).slice(0,2)}M</div>
                     <div className="hidden lg:block">BEAR</div>
-                    <div> ${((findTotalValue(bnbExchangeRate*newBnbBalance, maticExchangeRate*newMaticBalance, avaxExchangeRate*newAvaxBalance, ftmExchangeRate*newFtmBalance,
-                         linkExchangeRate*newLinkBalance, adaExchangeRate*newAdaBalance, atomExchangeRate*newAtomBalance, solExchangeRate*newSolBalance, parseFloat(newBusdBalance),
-                        bnbExchangeRate*newBearLp, sandExchangeRate*newSandBalance)/bearHeldByInvestors)*1000000).toFixed(2)} </div>
+                    <div> ${((setTotal()/newBearHeldByInvestors)*1000000).toFixed(2)} </div>
                 </div>  
             </div>
         </div>
