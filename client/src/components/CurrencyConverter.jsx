@@ -29,17 +29,10 @@ Front end will call back end for current rates
 */
   const convert = async () => {
     const options1 = {
-      method: "GET",
-      url: "https://alpha-vantage.p.rapidapi.com/query",
-      params: {
-        from_currency: "BNB",
-        function: "CURRENCY_EXCHANGE_RATE",
-        to_currency: "USD",
-      },
-      headers: {
-        "X-RapidAPI-Key": RAPID_API_KEY,
-        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
-      },
+      method: 'GET',
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/price',
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
     }; 
     const options2 = {
       method: 'GET',
@@ -86,7 +79,7 @@ Front end will call back end for current rates
     .request(options1)
     .then(function(response){
       setBnbExchangeRate(
-        response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+        response.data["usdPrice"]
       );
 
     }) 

@@ -1,5 +1,7 @@
 import {CurrencyConverter } from './components';
 import background from '../images/beartoken.png';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const homeStyle = {
   backgroundImage: `url(${background})`,
@@ -11,10 +13,11 @@ const homeStyle = {
 const App = () => {
   return (
       <div className="min-h-screen">
-          <div style={homeStyle}>
-              <CurrencyConverter/>
-          </div>
+        <div style={homeStyle}>
+          <CurrencyConverter />
+          <ToastContainer position="top-center" theme='dark' />
         </div>
+      </div>
   );
 
 }

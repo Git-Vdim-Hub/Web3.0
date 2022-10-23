@@ -11,6 +11,8 @@ import { GETBLOCK_ID } from '../utils/constants';
 import { CHAIN_STACK } from '../utils/constants';
 import { ethers } from "ethers";
 import currencyConverter from './CurrencyConverter';
+import { FcInfo } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 //import crypto logos
 import bnbLogo from '../../images/BinanceLogo.png'
@@ -49,6 +51,7 @@ const devBearAddress = '0xc414f2d604eb7B6c5C1dA41f80Ca0d7C6fA03B6a'
 
 //instantiation of the smartchain provider used to call values from bscscan
 const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/bsc')
+const provider2 = new ethers.providers.JsonRpcProvider(GETBLOCK_ID)
 
 const TREASURY_ABI = [
     "function name() external view returns(string memory)",
@@ -199,10 +202,27 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                   (sandExchangeRate * newSandBalance);
         return total.toFixed(2);
     }
+    const showInfo = () => {
+        toast(
+          "If the project hypothetically ended at this time, each investor holding 1 Million BEAR will receive this much BUSD in their wallet", {autoClose:4000}
+        );
+      }
+      
+      const showInfo1 = () => {
+        toast(
+          "Total BEAR out of 100 million minted that is held by investors at this time", {autoClose:4000}
+        );
+      }
+      
+      const showInfo2 = () => {
+        toast(
+          "This is the current value of 1 Million BEAR on PancakeSwap, after taxes", {autoClose:4000}
+        );
+      }
 
     return(
-        <div className="flex w-full justify-center items-center"> 
-        <div className="flex mf:flex-row flex-col items-start justify-between md:p-60 py-12 px-4">
+        <div className="flex w-full justify-center"> 
+        <div className="flex mf:flex-row flex-col items-start justify-between pt-10 px-4">
             <div className="flex flex-1 justify-center items-start flex-col mf:mr-10">
                 <h1 className="text-4xl text-center text-white py-3  w-full ">
                     The Bear Cave  
@@ -289,16 +309,16 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                     <div> ${(bnbExchangeRate*newBearLp).toFixed(2)} </div>
 
                     <div><img src={logo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
-                    <div>1 Mil BEAR</div>
-                    <div>{((newBearLp/newBearLPTokenAmount)*1000000).toFixed(2)}</div>
+                    <div>The Bear Token</div>
+                    <div>1 Million</div>
                     <div className="hidden lg:block">BEAR</div>
-                    <div> ${((bnbExchangeRate*(newBearLp/newBearLPTokenAmount)*1000000)*0.9).toFixed(2)} </div>
+                    <div className="flex items-center justify-center gap-2"> ${((bnbExchangeRate*(newBearLp/newBearLPTokenAmount)*1000000)*0.9).toFixed(2)}{" "} <FcInfo onClick={showInfo2}/> </div>
 
                     <div><img src={logo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
-                    <div>Treasury</div>
-                    <div>{(newBearHeldByInvestors).toFixed(2).slice(0,2)}M</div>
+                    <div>Treasury Value</div>
+                    <div className="flex items-center justify-center gap-2">{(newBearHeldByInvestors).toFixed(2).slice(0,2)} Million <FcInfo onClick={showInfo1}/> </div>
                     <div className="hidden lg:block">BEAR</div>
-                    <div> ${((setTotal()/newBearHeldByInvestors)*1000000).toFixed(2)} </div>
+                    <div className="flex items-center justify-center gap-2"> ${((setTotal()/newBearHeldByInvestors)*1000000).toFixed(2)} <FcInfo onClick={showInfo} /> </div>
                 </div>  
             </div>
         </div>
