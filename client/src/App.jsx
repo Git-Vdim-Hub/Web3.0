@@ -1,5 +1,7 @@
-import {Footer, CurrencyConverter } from './components';
-import background from '../images/beartoken.png';
+import {CurrencyConverter } from './components';
+import background from '../images/beartoken1.png';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const homeStyle = {
   backgroundImage: `url(${background})`,
