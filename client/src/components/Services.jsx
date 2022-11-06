@@ -250,7 +250,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
       }
 
     return(
-        <div className="flex w-full justify-center text-white pt-52 font-Roboto"> 
+        <div className="flex w-full justify-center text-white font-Roboto"> 
         <div className="flex mf:flex-row flex-col items-start justify-between pt-10 px-4">
             <div className="flex flex-1 justify-center items-start flex-col mf:mr-10">
                 { <h1 className="text-7xl text-center text-white py-3  w-full ">
