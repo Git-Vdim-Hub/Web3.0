@@ -25,7 +25,7 @@ import adaLogo from '../../images/Adalogo.png';
 import atomLogo from '../../images/Cosmoslogo.png';
 import solLogo from '../../images/Solanalogo.png';
 import sandLogo from '../../images/SandboxLogo.png';
-import moboxLogo from '../../images/MoboxIcon.png';
+import mboxLogo from '../../images/MoboxIcon.png';
 import kxaLogo from '../../images/KryxixiaIcon.png';
 import ibatLogo from '../../images/Battleinfinityicon.png';
 import logo from '../../images/95WEOeJ(1).png';
@@ -57,7 +57,6 @@ const devBearAddress = '0xc414f2d604eb7B6c5C1dA41f80Ca0d7C6fA03B6a'
 
 //instantiation of the smartchain provider used to call values from bscscan
 const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/bsc')
-const provider2 = new ethers.providers.JsonRpcProvider(GETBLOCK_ID)
 
 const TREASURY_ABI = [
     "function name() external view returns(string memory)",
@@ -251,16 +250,16 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
       }
 
     return(
-        <div className="flex w-full justify-center"> 
+        <div className="flex w-full justify-center text-white pt-52 font-Roboto"> 
         <div className="flex mf:flex-row flex-col items-start justify-between pt-10 px-4">
             <div className="flex flex-1 justify-center items-start flex-col mf:mr-10">
-                <h1 className="text-4xl text-center text-white py-3  w-full ">
+                { <h1 className="text-7xl text-center text-white py-3  w-full ">
                     The Bear Cave  
-                </h1>
-                <h1 className="text-3xl w-full text-center">
+                </h1> }
+                <h1 className="text-4xl font-medium w-full text-center">
                 Total: ${setTotal()}
                 </h1>
-                <div className="grid grid-cols-4 items-center lg:grid-cols-5 w-full mt-10 border-2 p-5 rounded-xl gap-4 text-black backdrop-blur-lg text-center divide-x">
+                <div className="grid grid-cols-4 items-center lg:grid-cols-5 w-full mt-10 border-2 p-5 rounded-xl gap-4 text-white backdrop-blur-lg text-center divide-x">
                     
                     <div><img src={maticLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Polygon</div>
@@ -314,7 +313,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                 <h1 className="text-4xl text-center text-white mt-5 w-full">
                     Gaming/Utility
                 </h1>
-                <div className="grid grid-cols-4 lg:grid-cols-5 items-center border-2 rounded-lg w-full mt-10 text-black backdrop-blur-lg p-5 text-center divide-x">
+                <div className="grid gap-4 grid-cols-4 lg:grid-cols-5 items-center border-2 rounded-lg w-full mt-10 text-white backdrop-blur-lg p-5 text-center divide-x">
                     
                     <div> <img src={sandLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
                     <div>Sand Box</div>
@@ -322,7 +321,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                     <div className="hidden lg:block">SAND</div>
                     <div> ${(newSandBalance*sandExchangeRate).toFixed(2)} </div>
 
-                    <div> <img src={moboxLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
+                    <div> <img src={mboxLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
                     <div>Mobox</div>
                     <div>{newMboxBalance}</div>
                     <div className="hidden lg:block">MBOX</div>
@@ -345,7 +344,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                 <h1 className="text-4xl text-center text-white mt-5 w-full">
                     Next Month's Investment
                 </h1>
-                <div className="grid grid-cols-4 lg:grid-cols-5 items-center border-2 rounded-lg w-full mt-10 text-black backdrop-blur-lg p-5 text-center divide-x">
+                <div className="grid grid-cols-4 lg:grid-cols-5 items-center border-2 rounded-lg w-full mt-10 text-white backdrop-blur-lg p-5 text-center divide-x">
                     
                     <div><img src={bnbLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Binance Smartchain</div>
@@ -356,7 +355,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                 <h1 className="text-4xl text-center text-white mt-5 w-full">
                     Arbitrage Calculation
                 </h1>
-                <div className="grid grid-cols-4 lg:grid-cols-5 items-center border-2 rounded-lg w-full mt-10 text-black backdrop-blur-lg p-5 text-center divide-x gap-4">
+                <div className="grid grid-cols-4 lg:grid-cols-5 items-center border-2 rounded-lg w-full mt-10 text-white backdrop-blur-lg p-5 text-center divide-x gap-4">
                 
                 <div><img src={bnbLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
                     <div>Bear LP</div>

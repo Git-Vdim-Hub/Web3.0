@@ -35,7 +35,7 @@ Front end will call back end for current rates
       method: 'GET',
       url: 'https://deep-index.moralis.io/api/v2/erc20/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/price',
       params: {chain: 'bsc'},
-      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,},
     }; 
     const options2 = {
       method: 'GET',
@@ -94,7 +94,7 @@ Front end will call back end for current rates
       headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
     };
     axios
-    .request(options1)
+    .request(options1, {timeout: 1000})
     .then(function(response){
       setBnbExchangeRate(
         response.data["usdPrice"]
@@ -102,73 +102,73 @@ Front end will call back end for current rates
 
     }) 
     axios
-      .request(options2)
+      .request(options2, {timeout: 2000})
       .then(function (response) {
         setMaticExchangeRate(
           response.data["usdPrice"]
         );
       })
     axios
-      .request(options3)
+      .request(options3, {timeout: 3000})
       .then(function (response) {
         setAvaxExchangeRate(
           response.data["usdPrice"]
         );
       })
       axios
-      .request(options4)
+      .request(options4, {timeout: 4000})
       .then(function (response) {
         setFtmExchangeRate(
           response.data["usdPrice"]
         );
       })
       axios
-      .request(options5)
+      .request(options5, {timeout: 5000})
       .then(function (response) {
         setLinkExchangeRate(
           response.data["usdPrice"]
         );
       })
       axios
-      .request(options6)
+      .request(options6, {timeout: 6000})
       .then(function (response) {
         setAdaExchangeRate(
           response.data["usdPrice"]
         );
       })
       axios
-      .request(options7)
+      .request(options7, {timeout: 7000})
       .then(function (response) {
         setAtomExchangeRate(
           response.data["usdPrice"]
         );
       })
       axios
-      .request(options8)
+      .request(options8, {timeout: 8000})
       .then(function (response) {
         setSolExchangeRate(
           response.data["usdPrice"]
         );
       })
-      axios.request(options9)
+      axios.request(options9, {timeout: 9000})
       .then(function(response) {
         setSandExchangeRate(
           response.data["usdPrice"]
         );
       })
-      axios.request(options10)
+      axios.request(options10, {timeout: 10000})
       .then(function(response) {
         setMboxExchangeRate(
           response.data["usdPrice"]
         );
       })
-      axios.request(options11)
+      axios.request(options11, {timeout: 11000})
       .then(function(response) {
         setKxaExchangeRate(
           response.data["usdPrice"]
         );
       })
-      axios.request(options12)
+      axios.request(options12, {timeout: 12000})
       .then(function(response) {
         setIbatExchangeRate(
           response.data["usdPrice"]
