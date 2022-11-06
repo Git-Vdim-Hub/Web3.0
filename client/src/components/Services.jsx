@@ -38,6 +38,9 @@ const adaAddress = '0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47'
 const atomAddress = '0x0Eb3a705fc54725037CC9e008bDede697f62F335'
 const solAddress = '0x570A5D26f7765Ecb712C0924E4De545B89fD43dF'
 const sandAddress = '0x67b725d7e342d7B611fa85e859Df9697D9378B2e'
+const mboxAddress = '0x3203c9E46cA618C8C1cE5dC67e7e9D75f5da2377'
+const kxaAddress = '0x2223bF1D7c19EF7C06DAB88938EC7B85952cCd89'
+const ibatAddress = '0x19cd9B8e42d4EF62c3EA124110D5Cfd283CEaC43'
 
 const wbnbAddress = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
 const bearLPAddress = '0x60783c1b91795adfd3add1a9492e37aec8a6e810'
@@ -77,6 +80,9 @@ const sol = new ethers.Contract(solAddress, TREASURY_ABI, provider)
 const bear = new ethers.Contract(bearAddress, BEAR_ABI, provider)
 const wbnb = new ethers.Contract(wbnbAddress, TREASURY_ABI, provider)
 const sand = new ethers.Contract(sandAddress, TREASURY_ABI, provider)
+const mbox = new ethers.Contract(mboxAddress, TREASURY_ABI, provider)
+const kxa = new ethers.Contract(kxaAddress, TREASURY_ABI, provider)
+const ibat = new ethers.Contract(ibatAddress, TREASURY_ABI, provider)
 
 const bearLP = async()=>{
     const bearLPWBNB = ethers.utils.formatEther(await wbnb.balanceOf(bearLPAddress))
@@ -87,11 +93,7 @@ const bearLPTokenAmount = async()=>{
     const bearLPToken = await bear.balanceOf(bearLPAddress) / 1000000000
     return parseFloat(bearLPToken).toFixed(2)
 }
-//const bearLPWBNB = ethers.utils.formatEther(await wbnb.balanceOf(bearLPAddress))
-//const bearLPRounded = Math.round(bearLPWBNB * 100) / 100;
-//const bearLPToken = await bear.balanceOf(bearLPAddress) / 1000000000
-//console.log(bearLPToken)
-//const bearValue = bearLPWBNB / bearLPToken
+
 const bearHeldByInvestors = async()=>{
     const bearTotalSupply = await bear.totalSupply() /1000000000
     const bearLPToken = await bear.balanceOf(bearLPAddress) / 1000000000
@@ -155,13 +157,29 @@ const treasurySand = async()=>{
     return parseFloat(sandBalance).toFixed(2);
 }
 
+const treasuryMbox = async()=>{
+    const mboxBalance = ethers.utils.formatEther(await mbox.balanceOf(treasuryAddress));
+    return parseFloat(mboxBalance).toFixed(2);
+}
+
+const treasuryKxa = async()=>{
+    const kxaBalance = ethers.utils.formatEther(await kxa.balanceOf(treasuryAddress));
+    return parseFloat(kxaBalance).toFixed(2);
+}
+
+const treasuryIbat = async()=>{
+    const ibatBalance = ethers.utils.formatEther(await ibat.balanceOf(treasuryAddress)) * 1000000000;
+    console.log(ibatBalance);
+    return parseFloat(ibatBalance).toFixed(2);
+}
+
 
 
 //commonStyles is used to format the white table outline for The Bear Cave Treasury
 //const commonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-medium text-white";
 
 // Output of the bear cave treasury including token logo, name, balance, symbol, and dollar value
-const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExchangeRate, linkExchangeRate, adaExchangeRate, atomExchangeRate, solExchangeRate, sandExchangeRate}) => {
+const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExchangeRate, linkExchangeRate, adaExchangeRate, atomExchangeRate, solExchangeRate, sandExchangeRate, mboxExchangeRate, kxaExchangeRate, ibatExchangeRate}) => {
     const [newBearLp, setNewBearLp] = useState(0);
     const [newBearLPTokenAmount, setNewBearLPTokenAmount] = useState(0);
     const [newBnbBalance, setNewBnbBalance] = useState(0);
@@ -174,6 +192,9 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
     const[newAtomBalance, setNewAtomBalance] = useState(0);
     const[newSolBalance, setNewSolBalance] = useState(0);
     const[newSandBalance, setNewSandBalance] = useState(0);
+    const[newMboxBalance, setNewMboxBalance] = useState(0);
+    const[newKxaBalance, setNewKxaBalance] = useState(0);
+    const[newIbatBalance, setNewIbatBalance] = useState(0);
     const[newBearHeldByInvestors, setNewBearHeldByInvestors] = useState(0)
     bearLP().then(value => setNewBearLp(value));
     bearLPTokenAmount().then(value => setNewBearLPTokenAmount(value));
@@ -187,6 +208,9 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
     treasuryAtom().then(value=>setNewAtomBalance(value));
     treasurySol().then(value=>setNewSolBalance(value));
     treasurySand().then(value=>setNewSandBalance(value));
+    treasuryMbox().then(value=>setNewMboxBalance(value));
+    treasuryKxa().then(value=>setNewKxaBalance(value));
+    treasuryIbat().then(value=>setNewIbatBalance(value));
     bearHeldByInvestors().then(value=>setNewBearHeldByInvestors(value));
     const setTotal = () => {
         const total = (bnbExchangeRate * newBnbBalance)+
@@ -199,7 +223,10 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                   (solExchangeRate * newSolBalance)+
                   (parseFloat(newBusdBalance))+
                   (bnbExchangeRate * newBearLp)+
-                  (sandExchangeRate * newSandBalance);
+                  (sandExchangeRate * newSandBalance)+
+                  (mboxExchangeRate * newMboxBalance)+
+                  (kxaExchangeRate * newKxaBalance)+
+                  (ibatExchangeRate * newIbatBalance);
         return total.toFixed(2);
     }
     const showInfo = () => {
@@ -263,7 +290,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                     <div>${(newLinkBalance*linkExchangeRate).toFixed(2)}</div>
 
                     <div><img src={adaLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>
-                    <div>Cordano</div>
+                    <div>Cardano</div>
                     <div>{newAdaBalance}</div>
                     <div className="hidden lg:block">ADA</div>
                     <div>${(newAdaBalance*adaExchangeRate).toFixed(2)}</div>
@@ -280,12 +307,38 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                     <div className="hidden lg:block">SOL</div>
                     <div> ${(newSolBalance*solExchangeRate).toFixed(2)} </div>
 
+                </div>
+                <h1 className="text-4xl text-center text-white mt-5 w-full">
+                    Gaming/Utility
+                </h1>
+                <div className="grid grid-cols-4 lg:grid-cols-5 items-center border-2 rounded-lg w-full mt-10 text-black backdrop-blur-lg p-5 text-center divide-x">
+                    
                     <div> <img src={sandLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
                     <div>Sand Box</div>
                     <div>{newSandBalance}</div>
                     <div className="hidden lg:block">SAND</div>
                     <div> ${(newSandBalance*sandExchangeRate).toFixed(2)} </div>
+
+                    <div> <img src={sandLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
+                    <div>Mobox</div>
+                    <div>{newMboxBalance}</div>
+                    <div className="hidden lg:block">MBOX</div>
+                    <div> ${(newMboxBalance*mboxExchangeRate).toFixed(2)} </div>
+
+                    <div> <img src={sandLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
+                    <div>Kryxivia</div>
+                    <div>{newKxaBalance}</div>
+                    <div className="hidden lg:block">KXA</div>
+                    <div> ${(newKxaBalance*kxaExchangeRate).toFixed(2)} </div>
+
+                    <div> <img src={sandLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
+                    <div>BattleInfinity</div>
+                    <div>{newIbatBalance}</div>
+                    <div className="hidden lg:block">IBAT</div>
+                    <div> ${(newIbatBalance*ibatExchangeRate).toFixed(2)} </div>
+
                 </div>
+
                 <h1 className="text-4xl text-center text-white mt-5 w-full">
                     Next Month's Investment
                 </h1>
@@ -299,7 +352,7 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                 </div>
                 <h1 className="text-4xl text-center text-white mt-5 w-full">
                     Arbitrage Calculation
-                </h1> 
+                </h1>
                 <div className="grid grid-cols-4 lg:grid-cols-5 items-center border-2 rounded-lg w-full mt-10 text-black backdrop-blur-lg p-5 text-center divide-x gap-4">
                 
                 <div><img src={bnbLogo} alt="logo" className="w-12 lg:w-16 border-2" /></div>

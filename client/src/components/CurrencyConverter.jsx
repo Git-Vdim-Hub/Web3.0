@@ -20,6 +20,9 @@ const CurrencyConverter = () => {
   const [atomExchangeRate, setAtomExchangeRate] = useState(0);
   const [solExchangeRate, setSolExchangeRate] = useState(0);
   const [sandExchangeRate, setSandExchangeRate] = useState(0);
+  const [mboxExchangeRate, setMboxExchangeRate] = useState(0);
+  const [kxaExchangeRate, setKxaExchangeRate] = useState(0);
+  const [ibatExchangeRate, setIbatExchangeRate] = useState(0);
   
 
 /*Currently client is making queries for every type of currency directly to rapidapi/alphavantage. 
@@ -74,7 +77,22 @@ Front end will call back end for current rates
       url: 'https://deep-index.moralis.io/api/v2/erc20/0x67b725d7e342d7B611fa85e859Df9697D9378B2e/price',
       params: {chain: 'bsc'},
       headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
-    }
+    };
+    const options10 ={
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0x3203c9E46cA618C8C1cE5dC67e7e9D75f5da2377/price',
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
+    };
+    const options11 ={
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0x2223bF1D7c19EF7C06DAB88938EC7B85952cCd89/price',
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
+    };
+    const options12 ={
+      url: 'https://deep-index.moralis.io/api/v2/erc20/0x19cd9B8e42d4EF62c3EA124110D5Cfd283CEaC43/price',
+      params: {chain: 'bsc'},
+      headers: {accept: 'application/json', 'X-API-Key': MORALIS_API,}
+    };
     axios
     .request(options1)
     .then(function(response){
@@ -137,6 +155,24 @@ Front end will call back end for current rates
         setSandExchangeRate(
           response.data["usdPrice"]
         );
+      })
+      axios.request(options10)
+      .then(function(response) {
+        setMboxExchangeRate(
+          response.data["usdPrice"]
+        );
+      })
+      axios.request(options11)
+      .then(function(response) {
+        setKxaExchangeRate(
+          response.data["usdPrice"]
+        );
+      })
+      axios.request(options12)
+      .then(function(response) {
+        setIbatExchangeRate(
+          response.data["usdPrice"]
+        );
       }) 
       .catch(function (error) {
         console.error(error);
@@ -158,6 +194,9 @@ Front end will call back end for current rates
         atomExchangeRate={atomExchangeRate}
         solExchangeRate={solExchangeRate}
         sandExchangeRate={sandExchangeRate}
+        mboxExchangeRate={mboxExchangeRate}
+        kxaExchangeRate={kxaExchangeRate}
+        ibatExchangeRate={ibatExchangeRate}
       />
   );
 };
