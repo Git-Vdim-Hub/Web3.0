@@ -25,6 +25,9 @@ import adaLogo from '../../images/Adalogo.png';
 import atomLogo from '../../images/Cosmoslogo.png';
 import solLogo from '../../images/Solanalogo.png';
 import sandLogo from '../../images/SandboxLogo.png';
+import moboxLogo from '../../images/MoboxIcon.png';
+import kxaLogo from '../../images/KryxixiaIcon.png';
+import ibatLogo from '../../images/Battleinfinityicon.png';
 import logo from '../../images/95WEOeJ(1).png';
 
 //create and assign treasury wallet and contract addresses
@@ -169,7 +172,7 @@ const treasuryKxa = async()=>{
 
 const treasuryIbat = async()=>{
     const ibatBalance = ethers.utils.formatEther(await ibat.balanceOf(treasuryAddress)) * 1000000000;
-    console.log(ibatBalance);
+    //console.log(ibatBalance);
     return parseFloat(ibatBalance).toFixed(2);
 }
 
@@ -319,19 +322,19 @@ const Services = ({bnbExchangeRate, maticExchangeRate, avaxExchangeRate, ftmExch
                     <div className="hidden lg:block">SAND</div>
                     <div> ${(newSandBalance*sandExchangeRate).toFixed(2)} </div>
 
-                    <div> <img src={sandLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
+                    <div> <img src={moboxLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
                     <div>Mobox</div>
                     <div>{newMboxBalance}</div>
                     <div className="hidden lg:block">MBOX</div>
                     <div> ${(newMboxBalance*mboxExchangeRate).toFixed(2)} </div>
 
-                    <div> <img src={sandLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
+                    <div> <img src={kxaLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
                     <div>Kryxivia</div>
                     <div>{newKxaBalance}</div>
                     <div className="hidden lg:block">KXA</div>
                     <div> ${(newKxaBalance*kxaExchangeRate).toFixed(2)} </div>
 
-                    <div> <img src={sandLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
+                    <div> <img src={ibatLogo} alt="logo" className="w-12 lg:w-16 border-2" /> </div>
                     <div>BattleInfinity</div>
                     <div>{newIbatBalance}</div>
                     <div className="hidden lg:block">IBAT</div>
